@@ -12,7 +12,7 @@ public class AppRunner  {
 
     public static void main(String[] args) throws Exception{
 
-        ServletUser.virtualDB();
+        //ServletUser.virtualDB();
 
         Server s = new Server(8001);
         ServletContextHandler h = new ServletContextHandler();

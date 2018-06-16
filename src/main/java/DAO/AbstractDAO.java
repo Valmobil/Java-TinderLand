@@ -1,5 +1,7 @@
 package DAO;
 
+import Models.Likes;
+
 public abstract class AbstractDAO<T>
 {
 	abstract public void insert(T obj);
