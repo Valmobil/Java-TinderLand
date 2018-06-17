@@ -1,4 +1,6 @@
 
+import DAO.LikesDAOarray;
+import DAO.UsersDAOarray;
 import Servlets.ServletUser;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -12,11 +14,14 @@ public class AppRunner  {
 
     public static void main(String[] args) throws Exception{
 
-        //ServletUser.virtualDB();
+        //InitializeVirtualDB
+        UsersDAOarray usersDB = new UsersDAOarray();
+        LikesDAOarray likesDB = new LikesDAOarray();
+        UUID currentUser = UUID.randomUUID();
 
         Server s = new Server(8001);
         ServletContextHandler h = new ServletContextHandler();
-        ServletUser svUser = new ServletUser();
+        ServletUser svUser = new ServletUser(currentUser,usersDB,likesDB);
         ServletHolder svh = new ServletHolder((Servlet) svUser);
         h.addServlet(svh,"/users");
         s.setHandler(h);
