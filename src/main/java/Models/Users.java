@@ -1,22 +1,21 @@
 package Models;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class Users {
-    UUID userId;
-    String userFirstName;
-    String userLinkPhoto;
+    private UUID userId;
+    private String userFirstName;
+    private String userPosition;
+    private String userLinkPhoto;
+    private Date userLastLogin;
 
-    public Users(UUID userId, String userFirstName, String userLinkPhoto) {
-        this.userId = userId;
-        this.userFirstName = userFirstName;
-        this.userLinkPhoto = userLinkPhoto;
-    }
-
-    public Users(String userFirstName, String userLinkPhoto) {
+    public Users(String userFirstName, String userPosition, String userLinkPhoto) {
         this.setUserId();
         this.userFirstName = userFirstName;
+        this.userPosition = userPosition;
         this.userLinkPhoto = userLinkPhoto;
+        this.userLastLogin = userLastLogin;
     }
 
     public UUID getUserId() {
@@ -41,5 +40,21 @@ public class Users {
 
     public void setUserLinkPhoto(String userLinkPhoto) {
         this.userLinkPhoto = userLinkPhoto;
+    }
+
+    public String getUserPosition() {
+        return userPosition;
+    }
+
+    public void setUserPosition(String userPosition) {
+        this.userPosition = userPosition;
+    }
+
+    public Date getUserLastLogin() {
+        return userLastLogin;
+    }
+
+    public void setUserLastLogin(Date userLastLogin) {
+        this.userLastLogin = userLastLogin;
     }
 }

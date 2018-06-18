@@ -16,7 +16,7 @@ public class FreeMarkerService {
     public FreeMarkerService(Map<String, String> model, String htmlTemplate, HttpServletResponse resp) {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         try {
-            cfg.setDirectoryForTemplateLoading(new File("./src/main/java/Lib"));
+            cfg.setDirectoryForTemplateLoading(new File("./src/main/java/Lib/templates/"));
         } catch (IOException e) {
             e.printStackTrace();
         }

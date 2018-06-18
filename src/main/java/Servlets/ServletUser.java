@@ -5,6 +5,7 @@ import DAO.UsersDAOarray;
 import Models.Likes;
 import Models.Users;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,10 @@ public class ServletUser extends HttpServlet {
         Users userToModel;
         List<Users> list = usersDAOarray.get();
         if (list.size()  == 0) {
-            resp.getWriter().write("No photoes to like");
+            //ServletList.doGet(req,resp);
+            RequestDispatcher rd = req.getRequestDispatcher("list");
+            rd.forward(req,resp);
+            //getServletContext().getNamedDispatcher("/users").forward(req, resp);
             return;
         } else {
             userToModel = list.get(firstLine);
