@@ -10,6 +10,11 @@ public class Users {
     private String userLinkPhoto;
     private Date userLastLogin;
 
+    public Users() {
+    }
+
+
+
     public Users(String userFirstName, String userPosition, String userLinkPhoto) {
         this.setUserId();
         this.userFirstName = userFirstName;
@@ -24,6 +29,10 @@ public class Users {
 
     public void setUserId() {
         this.userId = UUID.randomUUID();
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public String getUserFirstName() {

@@ -4,6 +4,7 @@ import DAO.LikesDAOarray;
 import DAO.UsersDAOarray;
 import Models.Users;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,19 +34,17 @@ public class ServletList extends HttpServlet {
         if (list.size()  == 0) {
             resp.getWriter().write("Have no more users");
             return;
-        } else {
-            userToModel = list.get(0);
         }
 
-        Map<String,String> model = new HashMap<String, String>();
-        model.put("name",userToModel.getUserFirstName());
-        model.put("position",userToModel.getUserPosition());
-        model.put("lastlogin", String.valueOf(userToModel.getUserLastLogin()));
-        model.put("pictureLink",userToModel.getUserLinkPhoto());
-        model.put("id",userToModel.getUserId().toString());
+        Map<String,List<Users>> model = new HashMap<>();
+        model.put("users",usersDAOarray.getWithLikes());
+/*          model.put("position",userToModel.getUserPosition());
+            model.put("lastlogin", String.valueOf(userToModel.getUserLastLogin()));
+            model.put("pictureLink",userToModel.getUserLinkPhoto());
+            model.put("id",userToModel.getUserId().toString());*/
         String htmlTemplate = "people-list.html";
-        FreeMarkerService freeMarkerService = new FreeMarkerService(model, htmlTemplate, resp);
-
+        FreeMarkerService freeMarkerService = new FreeMarkerService();
+        freeMarkerService.FreeMarkerServiceList(model, htmlTemplate, resp);
     }
 
     @Override
