@@ -1,5 +1,6 @@
 package DAO;
 
+import Models.Likes;
 import Models.Users;
 
 import java.sql.Connection;
@@ -13,42 +14,12 @@ import java.util.UUID;
 
 public class UsersDAO implements InterfaceDAO<Users> {
 
-    public static List<Users> getWithLikes() {
-        {
-            List<Users> items = new ArrayList<>();
-
-            String sql = "SELECT * FROM users";
-
-            try (
-                    Connection connection = ConnectionToDB.getConnection();
-                    PreparedStatement statement = connection.prepareStatement(sql);
-                    ResultSet rSet = statement.executeQuery();
-            ) {
-                while (rSet.next()) {
-                    Users user = new Users();
-                    //usersid, usersfirtname, usersposition, userslinkphoto, userlastlogin
-                    user.setUserId(UUID.fromString(rSet.getString("usersid")));
-                    user.setUserFirstName(rSet.getString("usersfirtname"));
-                    user.setUserPosition(rSet.getString("usersposition"));
-                    user.setUserLinkPhoto(rSet.getString("userslinkphoto"));
-                    user.setUserLastLogin(rSet.getDate("userlastlogin"));
-
-                    items.add(user);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return items;
-
-        }
-
-    }
-
     @Override
     public void insert(Users user) {
-        String sql = "INSERT INTO client(usersid, usersfirtname, usersposition, userslinkphoto, userlastlogin) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO users(usersid, usersfirtname, usersposition, userslinkphoto, userlastlogin) VALUES(?,?,?,?,?)";
 
-        try (Connection connection = (Connection) ConnectionToDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql);) {
+        try (Connection connection = (Connection) ConnectionToDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);) {
             statement.setString(1, String.valueOf(user.getUserId()));
             statement.setString(2, user.getUserFirstName());
             statement.setString(3, user.getUserPosition());
@@ -83,17 +54,21 @@ public class UsersDAO implements InterfaceDAO<Users> {
     }
 
     @Override
-    public List<Users> get() {
+    public List<Users> get(String filter) {
         {
             List<Users> items = new ArrayList<>();
 
             String sql = "SELECT * FROM users";
+            if (filter.length() > 0) {
+                sql += " where " + filter;
+            }
 
             try (
                     Connection connection = ConnectionToDB.getConnection();
                     PreparedStatement statement = connection.prepareStatement(sql);
-                    ResultSet rSet = statement.executeQuery();
+
             ) {
+                ResultSet rSet = statement.executeQuery();
                 while (rSet.next()) {
                     Users user = new Users();
                     //usersid, usersfirtname, usersposition, userslinkphoto, userlastlogin
@@ -109,7 +84,6 @@ public class UsersDAO implements InterfaceDAO<Users> {
                 e.printStackTrace();
             }
             return items;
-
         }
     }
 

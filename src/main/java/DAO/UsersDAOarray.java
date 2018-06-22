@@ -27,7 +27,7 @@ class UsersDAOArray implements InterfaceDAO<Users> {
     }
 
     @Override
-    public ArrayList<Users> get() {
+    public List<Users> get(String filter) {
         //Select all users w/o Likes
         ArrayList<Users> users = new ArrayList<>();
         for (Users userOne : usersDB) {

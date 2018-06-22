@@ -1,5 +1,5 @@
 package DAO;
-import Models.Users;
+import Models.Likes;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public interface InterfaceDAO<T>
 
     void update(T obj);
 
-    abstract List<Users> get();
+    List<T> get(String filter);
 
     void delete(T obj);
 }

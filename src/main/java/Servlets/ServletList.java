@@ -15,26 +15,26 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ServletList extends HttpServlet {
+    UsersDAO usersDAO = new UsersDAO();
     private UUID currentUser;
     private LikesDAOarray likesDAOarray;
 
-    public ServletList(UUID currentUser, LikesDAOarray likesDAOarray) {
+    public ServletList(UUID currentUser) {
         this.currentUser = currentUser;
-        this.likesDAOarray = likesDAOarray;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Fill model for FreeMarker
-        Users userToModel;
-        List<Users> list = UsersDAO.getWithLikes();
+        //Users userToModel;
+/*        List<Users> list = usersDAO.get("");
         if (list.size()  == 0) {
             resp.getWriter().write("Have no more users");
             return;
-        }
+        }*/
 
         Map<String,List<Users>> model = new HashMap<>();
-        model.put("users",UsersDAO.getWithLikes());
+        model.put("users",usersDAO.get("usersid in (select distinct likeslikeduserid from likes where likescurrentuserid = '" + currentUser + "' and likesvalue = 'Like')"));
 /*          model.put("position",userToModel.getUserPosition());
             model.put("lastlogin", String.valueOf(userToModel.getUserLastLogin()));
             model.put("pictureLink",userToModel.getUserLinkPhoto());

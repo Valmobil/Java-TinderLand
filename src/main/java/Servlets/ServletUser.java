@@ -1,6 +1,6 @@
 package Servlets;
 
-import DAO.LikesDAOarray;
+import DAO.LikesDAO;
 import DAO.UsersDAO;
 import Models.Likes;
 import Models.Users;
@@ -11,19 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
-
-import static org.apache.commons.io.FileUtils.openOutputStream;
-import static org.apache.commons.io.FileUtils.readFileToString;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class ServletUser extends HttpServlet {
     private UUID currentUser;
-    private UsersDAO usersDAO;
-    private LikesDAOarray likesDAO;
 
-    public ServletUser(UUID currentUser, LikesDAOarray likesDAO) {
+    public ServletUser(UUID currentUser) {
         this.currentUser = currentUser;
-        this.likesDAO = likesDAO;
     }
    /*   @Override
     protected void doGet_Simple(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,7 +39,7 @@ public class ServletUser extends HttpServlet {
 
         int firstLine = 0;
         Users userToModel;
-        List<Users> list = usersDAO.get();
+        List<Users> list = usersDAO.get("usersid not in (select distinct likeslikeduserid from likes where likescurrentuserid = '" + currentUser + "')");
         if (list.size()  == 0) {
             //ServletList.doGet(req,resp);
             RequestDispatcher rd = req.getRequestDispatcher("list");
@@ -64,7 +61,9 @@ public class ServletUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //write answer to DB
+        LikesDAO likesDAO = new LikesDAO();
+        //write answer to DB if not exists
+
         likesDAO.insert(new Likes(currentUser, UUID.fromString(req.getParameter("id")), req.getParameter("choice")));
         //resp.getWriter().write(req.getParameter("choice"));
         doGet(req,resp);
