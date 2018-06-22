@@ -6,11 +6,11 @@ import Models.Users;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersDAOarray implements InterfaceDAO<Users> {
+class UsersDAOArray implements InterfaceDAO<Users> {
     private List<Users> usersDB = new ArrayList<>();
 
 
-    public UsersDAOarray() {
+    public UsersDAOArray() {
         usersDB.add(new Users("Virginia!", "Supergirl", "https://vignette.wikia.nocookie.net/9b99c9b5-5597-45bb-97d4-5d7494c0f964/scale-to-width-down/1000"));
         usersDB.add(new Users("!!! Marianna !!!!", "Householder", "https://images.unsplash.com/photo-1508606572321-901ea443707f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=aae2a05e1585a697cb891c202e68bb78&auto=format&fit=crop&w=1864&q=80"));
         usersDB.add(new Users("RoboGirl", "Servant", "https://robohash.org/68.186.255.198.png"));

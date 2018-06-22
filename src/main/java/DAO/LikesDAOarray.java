@@ -1,6 +1,7 @@
 package DAO;
 
 import Models.Likes;
+import Models.Users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class LikesDAOarray implements InterfaceDAO<Likes> {
     }
 
     @Override
-    public ArrayList<Likes> get() {
+    public List<Users> get() {
         return null;
     }
 

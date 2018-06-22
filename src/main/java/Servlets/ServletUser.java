@@ -1,7 +1,7 @@
 package Servlets;
 
 import DAO.LikesDAOarray;
-import DAO.UsersDAOarray;
+import DAO.UsersDAO;
 import Models.Likes;
 import Models.Users;
 
@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -19,13 +18,12 @@ import static org.apache.commons.io.FileUtils.readFileToString;
 
 public class ServletUser extends HttpServlet {
     private UUID currentUser;
-    private UsersDAOarray usersDAOarray;
-    private LikesDAOarray likesDAOarray;
+    private UsersDAO usersDAO;
+    private LikesDAOarray likesDAO;
 
-    public ServletUser(UUID currentUser, UsersDAOarray usersDAOarray, LikesDAOarray likesDAOarray) {
+    public ServletUser(UUID currentUser, LikesDAOarray likesDAO) {
         this.currentUser = currentUser;
-        this.usersDAOarray = usersDAOarray;
-        this.likesDAOarray = likesDAOarray;
+        this.likesDAO = likesDAO;
     }
    /*   @Override
     protected void doGet_Simple(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,10 +38,11 @@ public class ServletUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Take first Photo/user
+        UsersDAO usersDAO = new UsersDAO();
 
         int firstLine = 0;
         Users userToModel;
-        List<Users> list = usersDAOarray.get();
+        List<Users> list = usersDAO.get();
         if (list.size()  == 0) {
             //ServletList.doGet(req,resp);
             RequestDispatcher rd = req.getRequestDispatcher("list");
@@ -66,7 +65,7 @@ public class ServletUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //write answer to DB
-        likesDAOarray.insert(new Likes(currentUser, UUID.fromString(req.getParameter("id")), req.getParameter("choice")));
+        likesDAO.insert(new Likes(currentUser, UUID.fromString(req.getParameter("id")), req.getParameter("choice")));
         //resp.getWriter().write(req.getParameter("choice"));
         doGet(req,resp);
     }

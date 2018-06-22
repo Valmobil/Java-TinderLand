@@ -8,11 +8,42 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 
 public class UsersDAO implements InterfaceDAO<Users> {
+
+    public static List<Users> getWithLikes() {
+        {
+            List<Users> items = new ArrayList<>();
+
+            String sql = "SELECT * FROM users";
+
+            try (
+                    Connection connection = ConnectionToDB.getConnection();
+                    PreparedStatement statement = connection.prepareStatement(sql);
+                    ResultSet rSet = statement.executeQuery();
+            ) {
+                while (rSet.next()) {
+                    Users user = new Users();
+                    //usersid, usersfirtname, usersposition, userslinkphoto, userlastlogin
+                    user.setUserId(UUID.fromString(rSet.getString("usersid")));
+                    user.setUserFirstName(rSet.getString("usersfirtname"));
+                    user.setUserPosition(rSet.getString("usersposition"));
+                    user.setUserLinkPhoto(rSet.getString("userslinkphoto"));
+                    user.setUserLastLogin(rSet.getDate("userlastlogin"));
+
+                    items.add(user);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return items;
+
+        }
+
+    }
+
     @Override
     public void insert(Users user) {
         String sql = "INSERT INTO client(usersid, usersfirtname, usersposition, userslinkphoto, userlastlogin) VALUES(?,?,?,?,?)";
@@ -66,11 +97,11 @@ public class UsersDAO implements InterfaceDAO<Users> {
                 while (rSet.next()) {
                     Users user = new Users();
                     //usersid, usersfirtname, usersposition, userslinkphoto, userlastlogin
-                    //user.setUserId(String.valueOf(rSet.getString("usersid")));
-                    user.setUserFirstName(rSet.getString("usersfirtname"));
+                    user.setUserId(UUID.fromString(rSet.getString("usersid")));
+                    user.setUserFirstName(rSet.getString("usersfirstname"));
                     user.setUserPosition(rSet.getString("usersposition"));
                     user.setUserLinkPhoto(rSet.getString("userslinkphoto"));
-                    user.setUserLastLogin(rSet.getDate("userlastlogin"));
+                    user.setUserLastLogin(rSet.getDate("userslastlogin"));
 
                     items.add(user);
                 }

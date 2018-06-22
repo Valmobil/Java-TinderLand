@@ -1,10 +1,9 @@
 package Servlets;
 
 import DAO.LikesDAOarray;
-import DAO.UsersDAOarray;
+import DAO.UsersDAO;
 import Models.Users;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +16,10 @@ import java.util.UUID;
 
 public class ServletList extends HttpServlet {
     private UUID currentUser;
-    private UsersDAOarray usersDAOarray;
     private LikesDAOarray likesDAOarray;
 
-    public ServletList(UUID currentUser, UsersDAOarray usersDAOarray, LikesDAOarray likesDAOarray) {
+    public ServletList(UUID currentUser, LikesDAOarray likesDAOarray) {
         this.currentUser = currentUser;
-        this.usersDAOarray = usersDAOarray;
         this.likesDAOarray = likesDAOarray;
     }
 
@@ -30,14 +27,14 @@ public class ServletList extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Fill model for FreeMarker
         Users userToModel;
-        List<Users> list = usersDAOarray.getWithLikes();
+        List<Users> list = UsersDAO.getWithLikes();
         if (list.size()  == 0) {
             resp.getWriter().write("Have no more users");
             return;
         }
 
         Map<String,List<Users>> model = new HashMap<>();
-        model.put("users",usersDAOarray.getWithLikes());
+        model.put("users",UsersDAO.getWithLikes());
 /*          model.put("position",userToModel.getUserPosition());
             model.put("lastlogin", String.valueOf(userToModel.getUserLastLogin()));
             model.put("pictureLink",userToModel.getUserLinkPhoto());
