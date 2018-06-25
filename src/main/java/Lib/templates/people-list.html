@@ -8,7 +8,8 @@
     <link rel="icon" href="/img/favicon.ico">
 
     <title>People list</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
     <link href="/files/css/bootstrap.min.css" rel="stylesheet">
 
@@ -29,26 +30,36 @@
                         <table class="table-users table" border="0">
                             <#list users as user>
                             <tbody>
-                                <tr>
-                                    <td width="10">
-                                        <div class="avatar-img">
-                                            <img class="img-circle" src="${user.userLinkPhoto}" />  
-                                        </div>
+                            <tr>
+                                <td width="10">
+                                    <div class="avatar-img">
+                                        <img class="img-circle" src="${user.userLinkPhoto}"/>  
+                                    </div>
 
-                                    </td>
-                                    <td class="align-middle">
-                                        ${user.userFirstName}
-                                        <input name="id" value="${user.userId}" hidden>
-                                    </td>
-                                    <td class="align-middle">
-                                        ${user.userPosition}
-                                    </td>
-                                    <td  class="align-middle">
-                                        Last Login:  ${user.userLastLogin}<br><small class="text-muted">5 days ago</small>
-                                    </td>
-                                </tr>
+                                </td>
+                                <td class="align-middle">
+                                    ${user.userFirstName}
+                                    <!input name="id" value="${user.userId}" hidden>
+                                    <!input name="name" value="${user.userFirstName}" hidden>
+                                </td>
+                                <td class="align-middle">
+                                    ${user.userPosition}
+                                </td>
+                                <td class="align-middle">
+                                    Last Login: ${user.userLastLogin}<br>
+                                    <small class="text-muted">5 days ago</small>
+                                </td>
+                                <td class="align-middle">
+                                    <form action="/msg" method="post">
+                                        <input type="submit" name="chat" class="btn btn-outline-success btn-block"
+                                               value="Chat">
+                                        <input type="hidden" name="userId" value="${user.userId}">
+                                        <input type="hidden" name="name" value="${user.userFirstName}">
+                                    </form>
+                                </td>
+                            </tr>
                             </tbody>
-                            </#list>
+                        </#list>
                         </table>
                     </div>
                 </div>

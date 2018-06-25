@@ -50,11 +50,11 @@ public class ServletUser extends HttpServlet {
             userToModel = list.get(firstLine);
         }
         //Fill model for FreeMarker
-        Map<String,String> model = new HashMap<String, String>();
+        Map<String,String> model = new HashMap<>();
         model.put("name",userToModel.getUserFirstName());
         model.put("pictureLink",userToModel.getUserLinkPhoto());
         model.put("id",userToModel.getUserId().toString());
-        String htmlTemplate = "user_form.ftlh";
+        String htmlTemplate = "like-page.html";
         FreeMarkerService freeMarkerService = new FreeMarkerService(model, htmlTemplate, resp);
 
     }

@@ -1,6 +1,5 @@
 package DAO;
 
-import Models.Likes;
 import Models.Users;
 
 import java.sql.Connection;

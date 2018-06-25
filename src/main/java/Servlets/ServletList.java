@@ -1,6 +1,5 @@
 package Servlets;
 
-import DAO.LikesDAOarray;
 import DAO.UsersDAO;
 import Models.Users;
 
@@ -17,7 +16,6 @@ import java.util.UUID;
 public class ServletList extends HttpServlet {
     UsersDAO usersDAO = new UsersDAO();
     private UUID currentUser;
-    private LikesDAOarray likesDAOarray;
 
     public ServletList(UUID currentUser) {
         this.currentUser = currentUser;
@@ -40,8 +38,7 @@ public class ServletList extends HttpServlet {
             model.put("pictureLink",userToModel.getUserLinkPhoto());
             model.put("id",userToModel.getUserId().toString());*/
         String htmlTemplate = "people-list.html";
-        FreeMarkerService freeMarkerService = new FreeMarkerService();
-        freeMarkerService.FreeMarkerServiceList(model, htmlTemplate, resp);
+        FreeMarkerService freeMarkerService = new FreeMarkerService(model, htmlTemplate, resp);
     }
 
     @Override
