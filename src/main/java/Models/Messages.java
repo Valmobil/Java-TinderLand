@@ -1,6 +1,6 @@
 package Models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Messages {
@@ -8,7 +8,15 @@ public class Messages {
     UUID messagesuserfromid;
     UUID messagesusertoid;
     String messagestext;
-    Date messagesDateTime;
+    Timestamp messagesDateTime;
+
+    public Messages(UUID messagesuserfromid, UUID messagesusertoid, String messagestext, Timestamp messagesDateTime) {
+        this.messagesId = UUID.randomUUID();
+        this.messagesuserfromid = messagesuserfromid;
+        this.messagesusertoid = messagesusertoid;
+        this.messagestext = messagestext;
+        this.messagesDateTime = messagesDateTime;
+    }
 
     public UUID getMessagesId() {
         return messagesId;
@@ -42,11 +50,11 @@ public class Messages {
         this.messagestext = messagestext;
     }
 
-    public Date getMessagesDateTime() {
+    public Timestamp getMessagesDateTime() {
         return messagesDateTime;
     }
 
-    public void setMessagesDateTime(Date messagesDateTime) {
+    public void setMessagesDateTime(Timestamp messagesDateTime) {
         this.messagesDateTime = messagesDateTime;
     }
 }

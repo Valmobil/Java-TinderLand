@@ -1,14 +1,15 @@
 package Servlets;
 
 import DAO.MessagesDAO;
+import Models.Messages;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,14 +28,12 @@ public class ServletMessanger extends HttpServlet {
         //Fill model for FreeMarker - List Generation
         Map<String,Object> model = new HashMap<>();
 
-        model.put("chats", messages.get("WHERE m.messagesuserfromid = " + currentUser +
-                "and messagesuserfromid = " + req.getParameter("id")  +
-                "ORDER BY messagesDateTime DESC"));
+        model.put("chats", messages.get("m.messagesuserfromid = '" + currentUser +
+                "' and messagesusertoid = '" + req.getParameter("userid")  +
+                "' ORDER BY messagesDateTime DESC"));
 
-        if (model.get(0)==null) {
-            model.remove(0);
-        };
-        model.put("speakToName",req.getParameter("name"));
+        model.put("speaktoname",req.getParameter("name"));
+        model.put("speaktouserId",req.getParameter("userid"));
 
         String htmlTemplate = "chat.html";
         FreeMarkerService freeMarkerService = new FreeMarkerService(model, htmlTemplate, resp);
@@ -42,6 +41,12 @@ public class ServletMessanger extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+        MessagesDAO messagesDAO = new MessagesDAO();
+        //write answer to DB if not exists
+        if (req.getParameter("messagetext").length() > 0) {
+            messagesDAO.insert(new Messages(currentUser, UUID.fromString(req.getParameter("userid")), req.getParameter("messagetext"), new Timestamp(System.currentTimeMillis())));
+        }
+        //resp.getWriter().write(req.getParameter("choice"));
+        doGet(req,resp);
     }
 }

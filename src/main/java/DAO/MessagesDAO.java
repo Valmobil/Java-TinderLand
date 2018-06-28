@@ -1,5 +1,6 @@
 package DAO;
 
+import Models.Chats;
 import Models.Messages;
 
 import java.sql.Connection;
@@ -19,7 +20,8 @@ public class MessagesDAO implements InterfaceDAO<Messages> {
 
     @Override
     public void insert(Messages messages) {
-        String sql = "INSERT messages (messagesid, messagesuserfrom, messagesuserto, messagesdatetime) VALUE (?,?,?,?,?)}";
+        String sql = "INSERT INTO messages (messagesid, messagesuserfromid, messagesusertoid, messagetext, messagesdatetime) VALUES (?,?,?,?,?)";
+
         Connection connection = ConnectionToDB.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -39,7 +41,7 @@ public class MessagesDAO implements InterfaceDAO<Messages> {
 
     @Override
     public void update(Messages messages) {
-        String sql = "UPDATE mESSAGES SET messagesid = ?, messagesuserfrom = ?, messagesuserto = ?, messagesdatetime = ? WHERE messagesid = ?";
+        String sql = "UPDATE mESSAGES SET messagesid = ?, messagesuserfromid = ?, messagesusertoid = ?, messagesdatetime = ? WHERE messagesid = ?";
         Connection connection = ConnectionToDB.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -57,16 +59,17 @@ public class MessagesDAO implements InterfaceDAO<Messages> {
 
     @Override
     public List get(String filter) {
-        List<Messages> items = new ArrayList<>();
+        List<Chats> items = new ArrayList<>();
 
         String sql =
-                "  SELECT u.usersfirstname as speakToFirstName," +
-                "  CASE WHEN m.messagesuserfromid <> '?' THEN u.userslinkphoto ELSE '' as speakToImage," +
-                "  CASE WHEN m.messagesuserfromid = '?' THEN m.messagetext ELSE '' END as currentuserText," +
-                "  CASE WHEN m.messagesuserfromid <> '?' THEN m.speaktotext ELSE '' END as speakToText," +
+                "  SELECT " +
+                "  CASE WHEN m.messagesuserfromid <> ? THEN u.usersfirstname ELSE '' END as speakToFirstName," +
+                "  CASE WHEN m.messagesuserfromid <> ? THEN u.userslinkphoto ELSE '' END as speakToImage," +
+                "  CASE WHEN m.messagesuserfromid = ? THEN m.messagetext ELSE '' END as currentuserText," +
+                "  CASE WHEN m.messagesuserfromid <> ? THEN m.messagetext ELSE '' END as speakToText," +
                 "  m.messagesdatetime as messagesDateTime" +
                 "  FROM messages as m" +
-                "  INNER JOIN users as u ON m.messagesuserfromid = u.usersid";
+                "  INNER JOIN users as u ON m.messagesusertoid = u.usersid";
         if (filter.length() > 0) {
             sql += " where " + filter;
         }
@@ -79,18 +82,26 @@ public class MessagesDAO implements InterfaceDAO<Messages> {
             statement.setObject(1, this.currentUser);
             statement.setObject(2, this.currentUser);
             statement.setObject(3, this.currentUser);
+            statement.setObject(4, this.currentUser);
 
             ResultSet rSet = statement.executeQuery();
 
             while (rSet.next()) {
-                Messages messages = new Messages();
+                Chats chats = new Chats();
+                chats.setMessagesDateTime(rSet.getDate("messagesdatetime"));
+                chats.setCurrentText(rSet.getString("currentusertext"));
+                chats.setSpeakToFirstName(rSet.getString("speaktofirstname"));
+                chats.setSpeakToImage(rSet.getString("speaktoimage"));
+                chats.setSpeakToText(rSet.getString("speaktotext"));
+                items.add(chats);
+                //Messages messages = new Messages();
+                /*messages.setMessagesuserfromid(UUID.fromString(rSet.getString("messagesuserfromid")));
                 messages.setMessagesId(UUID.fromString(rSet.getString("messagesid")));
-                messages.setMessagesuserfromid(UUID.fromString(rSet.getString("messagesuserfromid")));
                 messages.setMessagesusertoid(UUID.fromString(rSet.getString("messagesusertoid")));
                 messages.setMessagestext(rSet.getString("messagestext"));
                 messages.setMessagesDateTime(rSet.getDate("messagesdatetime"));
 
-                items.add(messages);
+                *///items.add(messages);
             }
         } catch (SQLException e) {
             e.printStackTrace();

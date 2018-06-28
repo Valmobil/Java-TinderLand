@@ -25,7 +25,7 @@
                 <div class="row header-one text-white p-1">
                     <div class="col-md-6 name pl-2">
                         <i class="fa fa-comment"></i>
-                        <h6 class="ml-1 mb-0">${(speakToName)!}</h6>
+                        <h6 class="ml-1 mb-0">${(speaktoname)!}</h6>
                     </div>
                     <div class="col-md-6 options text-right pr-0">
                         <i class="fa fa-window-minimize hide-chat-box hover text-center pt-1"></i>
@@ -49,14 +49,16 @@
                 <#list chats as chat>
                 <div class="col-md-12 chats pt-3 pl-2 pr-3 pb-3">
                     <ul class="p-0">
+                        <#if chat.currentText != "">
                         <li class="send-msg float-right mb-2">
                             <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                ${(chat.currentText)!} <br>
+                                ${chat.currentText} <br>
                             </p>
                         </li>
+                        <#else>
                         <li class="receive-msg float-left mb-2">
                             <div class="sender-img">
-                                <img src="${chat.speakToImage}" class="float-left">
+                                <img src="${(chat.speakToImage)!}" class="float-left">
                             </div>
                             <div class="receive-msg-desc float-left ml-2">
                                 <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
@@ -65,6 +67,7 @@
                                 <span class="receive-msg-time">${(chat.speakToFirstName)!}, ${(chat.messagesDateTime)!}</span>
                             </div>
                         </li>
+                      </#if>
                     </ul>
                 </div>
                 </#list>
@@ -76,8 +79,9 @@
 
                     <form action="/msg" method="post">
                         <div class="col-md-7 pl-0">
-                            <input name="id" value="${(id)!}" hidden>
-                            <input name="choice" type="text" class="border-0" placeholder=" Send message"/>
+                            <input name="userid" value="${(speaktouserId)!}" hidden>
+                            <input name="messagetext" type="text" class="border-0" placeholder=" Send message"/> <input type="submit" name="send" class="btn btn-outline-success btn-block" value="Send">
+                            <input type="hidden" name="name" value="${(speaktoname)!}">
                         </div>
                     </form>
                     <div class="col-md-3 text-right options-right">
@@ -87,7 +91,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 </body>

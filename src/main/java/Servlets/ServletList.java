@@ -31,7 +31,7 @@ public class ServletList extends HttpServlet {
             return;
         }*/
 
-        Map<String,List<Users>> model = new HashMap<>();
+        Map<String,Object> model = new HashMap<>();
         model.put("users",usersDAO.get("usersid in (select distinct likeslikeduserid from likes where likescurrentuserid = '" + currentUser + "' and likesvalue = 'Like')"));
 /*          model.put("position",userToModel.getUserPosition());
             model.put("lastlogin", String.valueOf(userToModel.getUserLastLogin()));

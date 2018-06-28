@@ -50,10 +50,10 @@
                                     <small class="text-muted">5 days ago</small>
                                 </td>
                                 <td class="align-middle">
-                                    <form action="/msg" method="post">
+                                    <form action="/msg" method="get">
                                         <input type="submit" name="chat" class="btn btn-outline-success btn-block"
                                                value="Chat">
-                                        <input type="hidden" name="userId" value="${user.userId}">
+                                        <input type="hidden" name="userid" value="${user.userId}">
                                         <input type="hidden" name="name" value="${user.userFirstName}">
                                     </form>
                                 </td>
