@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Messages {
-    UUID messagesId;
-    UUID messagesuserfromid;
-    UUID messagesusertoid;
-    String messagestext;
-    Timestamp messagesDateTime;
+    private UUID messagesId;
+    private UUID messagesuserfromid;
+    private UUID messagesusertoid;
+    private String messagestext;
+    private Timestamp messagesDateTime;
 
     public Messages(UUID messagesuserfromid, UUID messagesusertoid, String messagestext, Timestamp messagesDateTime) {
         this.messagesId = UUID.randomUUID();

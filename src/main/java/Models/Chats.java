@@ -3,11 +3,11 @@ package Models;
 import java.util.Date;
 
 public class Chats {
-    String speakToFirstName;
-    String speakToImage;
-    String currentText;
-    String speakToText;
-    Date messagesDateTime;
+    private String speakToFirstName;
+    private String speakToImage;
+    private String currentText;
+    private String speakToText;
+    private Date messagesDateTime;
 
     public Chats() {
     }
