@@ -19,9 +19,6 @@ import java.util.UUID;
 public class ServletUser extends HttpServlet {
     private UUID currentUser;
 
-    public ServletUser(UUID currentUser) {
-        this.currentUser = currentUser;
-    }
    /*   @Override
     protected void doGet_Simple(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -34,6 +31,10 @@ public class ServletUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //Get current user form cookies
+        Cookes cookes = new Cookes();
+        currentUser = UUID.fromString(cookes.getCookieValue(req, "U_ID"));
+
         //Take first Photo/user
         UsersDAO usersDAO = new UsersDAO();
 

@@ -14,7 +14,6 @@ import java.util.UUID;
 
 public class AppRunner {
     public static void main(String[] args) throws Exception {
-        final UUID currentUser = null; // = UUID.randomUUID();
         //Clear all likes from DB;
         //final LikesDAO likesDB = new LikesDAO();
         //likesDB.deleteAll(currentUser);
@@ -24,15 +23,15 @@ public class AppRunner {
                            addFilter(FilterAuth.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 
                            // servlet with usere like page
-                           addServlet(new ServletHolder(new ServletUser(currentUser)), "/users");
+                           addServlet(new ServletHolder(new ServletUser()), "/users");
                            // servlet with common exchange entity (CSS, Other files)
                            addServlet(new ServletHolder(new ServletFiles()), "/files/*");
                            // this servlet passed liked list of users
-                           addServlet(new ServletHolder(new ServletList(currentUser)), "/list");
+                           addServlet(new ServletHolder(new ServletList()), "/list");
                            // this servlet passes messager page
-                           addServlet(new ServletHolder(new ServletMessanger(currentUser)), "/msg");
+                           addServlet(new ServletHolder(new ServletMessanger()), "/msg");
                            // this servlet help to enter credentionals
-                           addServlet(new ServletHolder(new ServletLogins(currentUser)), "/login");
+                           addServlet(new ServletHolder(new ServletLogins()), "/login");
 
                        }}
             );

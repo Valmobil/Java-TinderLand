@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class FilterAuth implements Filter {
 
+    String originalURL;
     private UUID currentUser;
     private FilterConfig filterConfig;
     private Boolean active;
@@ -23,19 +24,26 @@ public class FilterAuth implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
-        if (request.getServletPath().equals("/files") || request.getServletPath().equals("/login")) {
-            chain.doFilter(req, resp);
-            return;
-        }
-        Cookes c = new Cookes();
         if (active) {
-            if (c.getCookieValue(request,"U_ID") == null) {
+            //Ignore filter for some servlet calls
+            if (request.getServletPath().equals("/files") || request.getServletPath().equals("/login")) {
+                chain.doFilter(req, resp);
+                return;
+            }
+            //If login already passed take cookies and plase it to original request
+            if (request.getServletPath().equals("/postlogin")) {
+                RequestDispatcher rd = request.getRequestDispatcher(this.originalURL);
+                rd.forward(request, resp);
+                return;
+            }
+            Cookes c = new Cookes();
+            if (c.getCookieValue(request, "U_ID") == null) {
+                this.originalURL = request.getServletPath();
                 RequestDispatcher rd = req.getRequestDispatcher("login");
                 rd.forward(req, resp);
-            } else {
-
-                chain.doFilter(req, resp);
+                return;
             }
+            chain.doFilter(req, resp);
         }
     }
 
@@ -51,5 +59,6 @@ public class FilterAuth implements Filter {
     public void setCurrentUser(UUID currentUser) {
         this.currentUser = currentUser;
     }
+
 }
 
