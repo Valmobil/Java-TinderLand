@@ -21,16 +21,18 @@ public class ServletMessanger extends HttpServlet {
         //Get current user form cookies
         Cookes cookes = new Cookes();
         currentUser = UUID.fromString(cookes.getCookieValue(req, "U_ID"));
-        
+        cookes.updateCookieTime(req, "U_ID");
+
         MessagesDAO messages = new MessagesDAO();
         messages.setCurrentUser(currentUser);
 
         //Fill model for FreeMarker - List Generation
         Map<String,Object> model = new HashMap<>();
 
-        model.put("chats", messages.get("m.messagesuserfromid = '" + currentUser +
+        model.put("chats", messages.get("(m.messagesuserfromid = '" + currentUser +
                 "' and messagesusertoid = '" + req.getParameter("userid")  +
-                "' ORDER BY messagesDateTime DESC"));
+                "') or (m.messagesusertoid = '" + currentUser +
+                "' and messagesuserfromid = '" + req.getParameter("userid")  + "') ORDER BY messagesDateTime ASC"));
 
         model.put("speaktoname",req.getParameter("name"));
         model.put("speaktouserId",req.getParameter("userid"));

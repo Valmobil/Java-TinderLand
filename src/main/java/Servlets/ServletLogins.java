@@ -2,6 +2,7 @@ package Servlets;
 
 import DAO.LoginsDAO;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -28,9 +29,15 @@ public class ServletLogins extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LoginsDAO loginsDAO = new LoginsDAO();
         this.currentUser = loginsDAO.getFromDB(req.getParameter("inputEmail"), req.getParameter("inputPassword"));
-        Cookie cookie = new Cookie("U_ID", this.currentUser.toString());
-        cookie.setMaxAge(120);
-        resp.addCookie(cookie);
-        resp.sendRedirect("/postlogin");
+        if (this.currentUser == null) {
+            doGet(req,resp);
+        } else {
+            Cookie cookie = new Cookie("U_ID", this.currentUser.toString());
+            cookie.setMaxAge(120);
+            resp.addCookie(cookie);
+            //RequestDispatcher rd = req.getRequestDispatcher("postlogin");
+            //rd.forward(req, resp);
+            resp.sendRedirect("/postlogin");
+        }
     }
 }

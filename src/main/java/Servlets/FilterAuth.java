@@ -4,14 +4,15 @@ import java.io.IOException;
 import java.util.UUID;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class FilterAuth implements Filter {
 
-    String originalURL;
+    //String originalURL;
     private UUID currentUser;
     private FilterConfig filterConfig;
     private Boolean active;
-
+    private String requestLastLink;
 
     @Override
     public void init(FilterConfig filterConfig
@@ -24,6 +25,7 @@ public class FilterAuth implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse responce = (HttpServletResponse) resp;
         if (active) {
             //Ignore filter for some servlet calls
             if (request.getServletPath().equals("/files") || request.getServletPath().equals("/login")) {
@@ -32,15 +34,18 @@ public class FilterAuth implements Filter {
             }
             //If login already passed take cookies and plase it to original request
             if (request.getServletPath().equals("/postlogin")) {
-                RequestDispatcher rd = request.getRequestDispatcher(this.originalURL);
-                rd.forward(request, resp);
-                return;
+                if (this.requestLastLink.equals("/msg")) {
+                    responce.sendRedirect("list");
+                } else {
+                    responce.sendRedirect("users");
+                }
             }
+
             Cookes c = new Cookes();
             if (c.getCookieValue(request, "U_ID") == null) {
-                this.originalURL = request.getServletPath();
-                RequestDispatcher rd = req.getRequestDispatcher("login");
-                rd.forward(req, resp);
+                this.requestLastLink = request.getServletPath();
+                //this.originalURL = request.getServletPath();
+                responce.sendRedirect("login");
                 return;
             }
             chain.doFilter(req, resp);
@@ -51,14 +56,5 @@ public class FilterAuth implements Filter {
     public void destroy() {
         active = null;
     }
-
-    public UUID getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(UUID currentUser) {
-        this.currentUser = currentUser;
-    }
-
 }
 

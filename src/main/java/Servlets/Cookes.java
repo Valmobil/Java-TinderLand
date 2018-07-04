@@ -16,4 +16,17 @@ public class Cookes
         }
         return null;
     }
+
+    public String updateCookieTime(HttpServletRequest req, String cookieName) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie ck : cookies) {
+                if ("U_ID".equals(ck.getName())) {
+                    ck.setMaxAge(120);
+                }
+            }
+        }
+        return null;
+    }
+
 }

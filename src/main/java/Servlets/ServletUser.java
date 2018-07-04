@@ -35,6 +35,7 @@ public class ServletUser extends HttpServlet {
         Cookes cookes = new Cookes();
         currentUser = UUID.fromString(cookes.getCookieValue(req, "U_ID"));
 
+
         //Take first Photo/user
         UsersDAO usersDAO = new UsersDAO();
 
@@ -64,9 +65,10 @@ public class ServletUser extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LikesDAO likesDAO = new LikesDAO();
         //write answer to DB if not exists
-
-        likesDAO.insert(new Likes(currentUser, UUID.fromString(req.getParameter("id")), req.getParameter("choice")));
-        //resp.getWriter().write(req.getParameter("choice"));
+        if (currentUser != null) {
+            likesDAO.insert(new Likes(currentUser, UUID.fromString(req.getParameter("id")), req.getParameter("choice")));
+            //resp.getWriter().write(req.getParameter("choice"));
+        }
         doGet(req,resp);
     }
 }
