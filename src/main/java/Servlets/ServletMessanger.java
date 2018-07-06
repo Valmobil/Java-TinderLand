@@ -17,7 +17,8 @@ public class ServletMessanger extends HttpServlet {
     private UUID currentUser;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+
         //Get current user form cookies
         Cookes cookes = new Cookes();
         currentUser = UUID.fromString(cookes.getCookieValue(req, "U_ID"));
@@ -42,7 +43,8 @@ public class ServletMessanger extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+
         MessagesDAO messagesDAO = new MessagesDAO();
         //write answer to DB if not exists
         if (req.getParameter("messagetext").length() > 0) {
