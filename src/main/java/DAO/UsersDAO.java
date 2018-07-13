@@ -17,8 +17,8 @@ public class UsersDAO implements InterfaceDAO<Users> {
     public void insert(Users user) {
         String sql = "INSERT INTO users(usersid, usersfirtname, usersposition, userslinkphoto, userlastlogin) VALUES(?,?,?,?,?)";
 
-        try (Connection connection = (Connection) ConnectionToDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);) {
+        try (Connection connection = ConnectionToDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, String.valueOf(user.getUserId()));
             statement.setString(2, user.getUserFirstName());
             statement.setString(3, user.getUserPosition());
@@ -37,7 +37,7 @@ public class UsersDAO implements InterfaceDAO<Users> {
 
         try (
                 Connection connection = ConnectionToDB.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql);
+                PreparedStatement statement = connection.prepareStatement(sql)
         ) {
 
             statement.setString(5, String.valueOf(user.getUserId()));
@@ -64,7 +64,7 @@ public class UsersDAO implements InterfaceDAO<Users> {
 
             try (
                     Connection connection = ConnectionToDB.getConnection();
-                    PreparedStatement statement = connection.prepareStatement(sql);
+                    PreparedStatement statement = connection.prepareStatement(sql)
 
             ) {
                 ResultSet rSet = statement.executeQuery();
@@ -92,7 +92,7 @@ public class UsersDAO implements InterfaceDAO<Users> {
 
         try (
                 Connection connection = ConnectionToDB.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql);
+                PreparedStatement statement = connection.prepareStatement(sql)
         ) {
             statement.setString(1, String.valueOf(users.getUserId()));
             statement.executeUpdate();
@@ -101,4 +101,3 @@ public class UsersDAO implements InterfaceDAO<Users> {
         }
     }
 }
-

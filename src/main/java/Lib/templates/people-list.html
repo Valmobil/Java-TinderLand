@@ -28,7 +28,7 @@
                 <div class="panel-body">
                     <div class="table-container">
                         <table class="table-users table" border="0">
-                            <#list users as user>
+                        <#list users as user>
                             <tbody>
                             <tr>
                                 <td width="10">
@@ -46,7 +46,7 @@
                                     ${user.userPosition}
                                 </td>
                                 <td class="align-middle">
-                                    Last Login: ${user.userLastLogin}<br>
+                                    Last Login: ${(user.userLastLogin)!}<br>
                                     <small class="text-muted">5 days ago</small>
                                 </td>
                                 <td class="align-middle">

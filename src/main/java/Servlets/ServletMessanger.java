@@ -1,5 +1,6 @@
 package Servlets;
 
+import DAO.ChatDAO;
 import DAO.MessagesDAO;
 import Models.Messages;
 
@@ -7,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,15 +22,17 @@ public class ServletMessanger extends HttpServlet {
         //Get current user form cookies
         Cookes cookes = new Cookes();
         currentUser = UUID.fromString(cookes.getCookieValue(req, "U_ID"));
-        cookes.updateCookieTime(req, "U_ID");
+        cookes.updateCookieTime(req, resp, "U_ID");
 
-        MessagesDAO messages = new MessagesDAO();
-        messages.setCurrentUser(currentUser);
+        MessagesDAO messagesDAO = new MessagesDAO();
+        messagesDAO.setCurrentUser(currentUser);
+        ChatDAO chatDAO = new ChatDAO();
+        chatDAO.setCurrentUser(currentUser);
 
         //Fill model for FreeMarker - List Generation
         Map<String,Object> model = new HashMap<>();
 
-        model.put("chats", messages.get("(m.messagesuserfromid = '" + currentUser +
+        model.put("chats", chatDAO.get("(m.messagesuserfromid = '" + currentUser +
                 "' and messagesusertoid = '" + req.getParameter("userid")  +
                 "') or (m.messagesusertoid = '" + currentUser +
                 "' and messagesuserfromid = '" + req.getParameter("userid")  + "') ORDER BY messagesDateTime ASC"));

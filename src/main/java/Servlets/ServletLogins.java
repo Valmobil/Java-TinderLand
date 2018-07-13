@@ -20,8 +20,7 @@ public class ServletLogins extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
         Map<String, Object> model = new HashMap<>();
-
-        //Send form using FreeMarker
+        //Send Login HTML page using FreeMarker
         String htmlTemplate = "login.html";
         FreeMarkerService freeMarkerService = new FreeMarkerService(model, htmlTemplate, resp);
     }
@@ -30,17 +29,14 @@ public class ServletLogins extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         LoginsDAO loginsDAO = new LoginsDAO();
+        Cookes cookes = new Cookes();
         this.currentUser = loginsDAO.getFromDB(req.getParameter("inputEmail"), req.getParameter("inputPassword"));
         if (this.currentUser == null) {
-            //Generate form in Get
+            //Generate Login HTMP Page
             doGet(req,resp);
         } else {
             //Create cookie with current user Id
-            Cookie cookie = new Cookie("U_ID", this.currentUser.toString());
-            cookie.setMaxAge(120);
-            resp.addCookie(cookie);
-            //RequestDispatcher rd = req.getRequestDispatcher("postlogin");
-            //rd.forward(req, resp);
+            cookes.setCokies(resp,"U_ID", this.currentUser.toString(), 120);
             resp.sendRedirect("/postlogin");
         }
     }

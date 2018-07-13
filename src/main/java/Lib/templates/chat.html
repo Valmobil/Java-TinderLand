@@ -49,7 +49,7 @@
                 <#list chats as chat>
                 <div class="col-md-12 chats pt-3 pl-2 pr-3 pb-3">
                     <ul class="p-0">
-                        <#if chat.currentText != "">
+                    <#if chat.currentText != "">
                         <li class="send-msg float-right mb-2">
                             <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
                                 ${chat.currentText} <br>
@@ -67,27 +67,29 @@
                                 <span class="receive-msg-time">${(chat.speakToFirstName)!}, ${(chat.messagesDateTime)!}</span>
                             </div>
                         </li>
-                      </#if>
+                    </#if>
                     </ul>
                 </div>
                 </#list>
-            <div class="col-md-12 p-2 msg-box border border-primary">
-                <div class="row">
-                    <div class="col-md-2 options-left">
-                        <i class="fa fa-smile-o"></i>
-                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 p-2 msg-box border border-primary">
+        <div class="row">
+            <div class="col-md-2 options-left">
+                <i class="fa fa-smile-o"></i>
+            </div>
 
-                    <form action="/msg" method="post">
-                        <div class="col-md-7 pl-0">
-                            <input name="userid" value="${(speaktouserId)!}" hidden>
-                            <input name="messagetext" type="text" class="border-0" placeholder=" Send message"/> <input type="submit" name="send" class="btn btn-outline-success btn-block" value="Send">
-                            <input type="hidden" name="name" value="${(speaktoname)!}">
-                        </div>
-                    </form>
-                    <div class="col-md-3 text-right options-right">
-                        <i class="fa fa-picture-o mr-2"></i>
-                    </div>
+            <form action="/msg" method="post">
+                <div class="col-md-7 pl-0">
+                    <input name="userid" value="${(speaktouserId)!}" hidden>
+                    <input name="messagetext" type="text" class="border-0" placeholder=" Send message"/> <input
+                        type="submit" name="send" class="btn btn-outline-success btn-block" value="Send">
+                    <input type="hidden" name="name" value="${(speaktoname)!}">
                 </div>
+            </form>
+            <div class="col-md-3 text-right options-right">
+                <i class="fa fa-picture-o mr-2"></i>
             </div>
         </div>
     </div>

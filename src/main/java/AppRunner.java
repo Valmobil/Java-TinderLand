@@ -29,7 +29,7 @@ public class AppRunner {
                            // this servlet passed liked list of users
                            addServlet(new ServletHolder(new ServletList()), "/list");
                            // this servlet passes messager page
-                           addServlet(new ServletHolder(new ServletMessanger()), "/msg");
+                           addServlet(new ServletHolder(new ServletMessanger()), "/msg/*");
                            // this servlet help to enter credentionals
                            addServlet(new ServletHolder(new ServletLogins()), "/login");
 

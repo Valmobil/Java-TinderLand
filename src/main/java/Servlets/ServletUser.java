@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ServletUser extends HttpServlet {
     }*/
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         //Get current user form cookies
         Cookes cookes = new Cookes();
         currentUser = UUID.fromString(cookes.getCookieValue(req, "U_ID"));
@@ -44,8 +45,7 @@ public class ServletUser extends HttpServlet {
         List<Users> list = usersDAO.get("usersid not in (select distinct likeslikeduserid from likes where likescurrentuserid = '" + currentUser + "')");
         if (list.size()  == 0) {
             //ServletList.doGet(req,resp);
-            RequestDispatcher rd = req.getRequestDispatcher("list");
-            rd.forward(req,resp);
+            resp.sendRedirect("list");
             //getServletContext().getNamedDispatcher("/users").forward(req, resp);
             return;
         } else {
@@ -62,7 +62,7 @@ public class ServletUser extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         LikesDAO likesDAO = new LikesDAO();
         //write answer to DB if not exists
         if (currentUser != null) {
