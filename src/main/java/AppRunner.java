@@ -17,8 +17,11 @@ public class AppRunner {
         //Clear all likes from DB;
         //final LikesDAO likesDB = new LikesDAO();
         //likesDB.deleteAll(currentUser);
-
-        new Server($PORT) {{
+        int firstArg = 8001;
+        if (args.length > 0) {
+            firstArg = Integer.parseInt(args[0]);
+        }
+        new Server(firstArg) {{
         //new Server(8001) {{
             setHandler(new ServletContextHandler() {{
                            addFilter(FilterAuth.class, "/*", EnumSet.of(DispatcherType.REQUEST));
