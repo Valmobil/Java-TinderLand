@@ -18,7 +18,8 @@ public class AppRunner {
         //final LikesDAO likesDB = new LikesDAO();
         //likesDB.deleteAll(currentUser);
 
-        new Server(8001) {{
+        new Server($PORT) {{
+        //new Server(8001) {{
             setHandler(new ServletContextHandler() {{
                            addFilter(FilterAuth.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 
