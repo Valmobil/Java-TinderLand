@@ -1,6 +1,8 @@
 package Servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.UUID;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,11 @@ public class FilterAuth implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse responce = (HttpServletResponse) resp;
+        Writer writer = resp.getWriter();
+        ((PrintWriter) writer).println("I am deployed on Hiroku");
+        return;
+
+/*
         if (active) {
             //Ignore filter for some servlet calls
             if (request.getServletPath().equals("/files") || request.getServletPath().equals("/login")) {
@@ -50,6 +57,7 @@ public class FilterAuth implements Filter {
             }
             chain.doFilter(req, resp);
         }
+*/
     }
 
     @Override
