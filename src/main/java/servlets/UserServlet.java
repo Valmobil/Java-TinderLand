@@ -1,23 +1,20 @@
-package Servlets;
+package servlets;
 
 import DAO.LikesDAO;
 import DAO.UsersDAO;
-import Models.Likes;
-import Models.Users;
+import models.Likes;
+import models.Users;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ServletUser extends HttpServlet {
+public class UserServlet extends HttpServlet {
     private UUID currentUser;
 
    /*   @Override
@@ -44,9 +41,7 @@ public class ServletUser extends HttpServlet {
         Users userToModel;
         List<Users> list = usersDAO.get("usersid not in (select distinct likeslikeduserid from likes where likescurrentuserid = '" + currentUser + "')");
         if (list.size()  == 0) {
-            //ServletList.doGet(req,resp);
             resp.sendRedirect("list");
-            //getServletContext().getNamedDispatcher("/users").forward(req, resp);
             return;
         } else {
             userToModel = list.get(firstLine);
@@ -67,7 +62,6 @@ public class ServletUser extends HttpServlet {
         //write answer to DB if not exists
         if (currentUser != null) {
             likesDAO.insert(new Likes(currentUser, UUID.fromString(req.getParameter("id")), req.getParameter("choice")));
-            //resp.getWriter().write(req.getParameter("choice"));
         }
         doGet(req,resp);
     }

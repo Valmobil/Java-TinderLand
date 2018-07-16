@@ -1,7 +1,5 @@
-package Servlets;
+package servlets;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +10,7 @@ import java.util.UUID;
 
 import DAO.LoginsDAO;
 
-public class ServletLogins extends HttpServlet {
+public class LoginsServlet extends HttpServlet {
 
     LoginsDAO loginsDAO = new LoginsDAO();
     private UUID currentUser;

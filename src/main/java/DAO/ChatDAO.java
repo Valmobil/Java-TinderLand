@@ -1,7 +1,6 @@
 package DAO;
 
-import Models.Chats;
-import Models.Messages;
+import models.Chats;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,6 +1,6 @@
 package DAO;
 
-import Models.Likes;
+import models.Likes;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

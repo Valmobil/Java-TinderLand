@@ -1,8 +1,8 @@
-package Servlets;
+package servlets;
 
 import DAO.ChatDAO;
 import DAO.MessagesDAO;
-import Models.Messages;
+import models.Messages;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ServletMessanger extends HttpServlet {
+public class MessangerServlet extends HttpServlet {
     private UUID currentUser;
 
     @Override
